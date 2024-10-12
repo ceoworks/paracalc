@@ -84,8 +84,8 @@ function evaluatePostfix(postfix: string[]): number | string {
   return stack[0];
 }
 
-module.exports = function calculateExpression(exp: string): number | string {
+export default function evaluateExpression(exp: string): number | string {
   const tokens = exp.match(/\d+(\.\d+)?|\+|\-|\*|\/|\(|\)/g) || [];
   const postfix = infixToPostfix(tokens);
   return evaluatePostfix(postfix);
-};
+}
