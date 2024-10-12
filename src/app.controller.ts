@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post()
-  calculate(@Body() calculateRequest: CalculateRequestDTO): number {
+  calculate(@Body() calculateRequest: CalculateRequestDTO): Promise<number> {
     return this.appService.calculateExpression(calculateRequest.expression);
   }
 }

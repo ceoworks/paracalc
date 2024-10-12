@@ -1,8 +1,7 @@
-function isOperator(token: string): boolean {
+function isOperator(token) {
   return ['+', '-', '*', '/'].includes(token);
 }
-
-function getPrecedence(op: string): number {
+function getPrecedence(op) {
   switch (op) {
     case '+':
     case '-':
@@ -14,11 +13,9 @@ function getPrecedence(op: string): number {
       return 0;
   }
 }
-
-function infixToPostfix(tokens: string[]): string[] {
-  const output: string[] = [];
-  const operatorStack: string[] = [];
-
+function infixToPostfix(tokens) {
+  const output = [];
+  const operatorStack = [];
   for (const token of tokens) {
     if (!isNaN(parseFloat(token))) {
       output.push(token);
@@ -29,9 +26,9 @@ function infixToPostfix(tokens: string[]): string[] {
         operatorStack.length &&
         operatorStack[operatorStack.length - 1] !== '('
       ) {
-        output.push(operatorStack.pop()!);
+        output.push(operatorStack.pop());
       }
-      operatorStack.pop(); // Remove '('
+      operatorStack.pop();
     } else if (isOperator(token)) {
       while (
         operatorStack.length &&
@@ -39,28 +36,24 @@ function infixToPostfix(tokens: string[]): string[] {
         getPrecedence(operatorStack[operatorStack.length - 1]) >=
           getPrecedence(token)
       ) {
-        output.push(operatorStack.pop()!);
+        output.push(operatorStack.pop());
       }
       operatorStack.push(token);
     }
   }
-
   while (operatorStack.length) {
-    output.push(operatorStack.pop()!);
+    output.push(operatorStack.pop());
   }
-
   return output;
 }
-
-function evaluatePostfix(postfix: string[]): number | string {
-  const stack: number[] = [];
-
+function evaluatePostfix(postfix) {
+  const stack = [];
   for (const token of postfix) {
     if (!isNaN(parseFloat(token))) {
       stack.push(parseFloat(token));
     } else {
-      const b = stack.pop()!;
-      const a = stack.pop()!;
+      const b = stack.pop();
+      const a = stack.pop();
       switch (token) {
         case '+':
           stack.push(a + b);
@@ -80,12 +73,11 @@ function evaluatePostfix(postfix: string[]): number | string {
       }
     }
   }
-
   return stack[0];
 }
-
-module.exports = function calculateExpression(exp: string): number | string {
+module.exports = function calculateExpression(exp) {
   const tokens = exp.match(/\d+(\.\d+)?|\+|\-|\*|\/|\(|\)/g) || [];
   const postfix = infixToPostfix(tokens);
   return evaluatePostfix(postfix);
 };
+//# sourceMappingURL=evaluateExpression.js.map
